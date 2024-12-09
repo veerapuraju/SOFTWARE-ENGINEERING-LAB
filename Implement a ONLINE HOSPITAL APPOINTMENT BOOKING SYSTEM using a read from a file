@@ -1,0 +1,39 @@
+def load_appointments(file_path):
+    appointments = []
+    try:
+        with open(file_path, "r") as file:
+            next(file)  
+            for line in file:
+                parts = line.strip().split("\t")
+                if len(parts) == 4:  
+                    patient_name, doctor_name, time = parts[1], parts[2], parts[3]
+                    appointments.append({"patient_name": patient_name, "doctor_name": doctor_name, "time": time})
+    except FileNotFoundError:
+        print("File not found.Please check the file path.")
+    except Exception as e:
+        print(f"An error occurred:{e}")
+    return appointments
+def display_appointments(appointments):
+    if not appointments:
+        print("No appointments available.")
+    else:
+        print("Appointments List:")
+        for i, appointment in enumerate(appointments, 1):
+            print(f"{i}. Patient: {appointment['patient_name']} - Doctor: {appointment['doctor_name']} - Time: {appointment['time']}")
+def add_appointment(appointments):
+    patient_name = input("Enter patient's name:")
+    doctor_name = input("Enter doctor's name:")
+    time = input("Enter appointment time:")
+    new_appointment = {
+        "patient_name": patient_name,
+        "doctor_name": doctor_name,
+        "time": time
+    }
+    appointments.append(new_appointment)
+    print("Appointment added successfully!")
+def main():
+    file_path = "SName.txt"  
+    appointments = load_appointments(file_path)
+    display_appointments(appointments)
+if __name__ == "__main__":
+    main()
